@@ -1,6 +1,8 @@
-﻿using ContactManager.Models;
+﻿using ContactManager.Dtos;
+using ContactManager.Models;
 using ContactManager.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 
 namespace ContactManager.Controllers
@@ -20,6 +22,18 @@ namespace ContactManager.Controllers
         public IActionResult Index()
         {
             var contacts = _contactService.GetContacts();
+
+            var contact = new ContactDto
+            {
+                Id = 3,
+                Name = "Supplier2",
+                Phone = "234234",
+                BirthDate = DateTime.Now
+            };
+
+            _contactService.AddContact(contact);
+
+            contacts = _contactService.GetContacts();
 
             return View(contacts);
         }

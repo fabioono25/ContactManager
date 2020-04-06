@@ -9,33 +9,36 @@ namespace ContactManager.Data.Repositories
     /// I'm trying to figure out a way to use this contact repository, and then verify if it's a supplier or a customer based on some property, so I could return a flag
     /// This flag can be used when I add a new registry, like acheck to expose if it's a supplier or customer
     /// </summary>
-    public class MockContactRepository : IContactRepository
+    public class MockContactRepository<T> : IContactRepository<T> where T : Contact
     {
+        private List<Contact> db = new List<Contact>
+                {
+                    new Customer { Id = 1, Name = "John", Birthday = DateTime.Now, Email = "mail@mail.com" },
+                    new Supplier { Id = 2, Name = "SupplierTest", PhoneNumber = "123123" }
+                };
+
         public IEnumerable<Contact> Contacts
         {
             get
             {
-                return new List<Contact>
-                {
-                    new Contact { Id = 1, Name = "John Nash" },
-                    new Contact { Id = 2, Name = "Rocky Balboa" }
-                };
+                return db;
             }
         }
 
-        public int InsertContact(Contact contact)
+        public void InsertContact(T contact)
         {
-            throw new NotImplementedException();
+            db.Add(contact);
         }
 
-        public int UpdateContact(Contact contact)
+        public void UpdateContact(T contact)
         {
-            throw new NotImplementedException();
+            db.RemoveAll(x => x.Id == contact.Id);
+            db.Add(contact);
         }
 
-        public int DeleteContact(int id)
+        public void DeleteContact(int id)
         {
-            throw new NotImplementedException();
+            db.RemoveAll(x => x.Id == id);
         }
     }
 }

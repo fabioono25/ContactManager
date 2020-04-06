@@ -6,7 +6,7 @@ namespace ContactManager.Domain.Entities
     /// <summary>
     /// My idea here is to use contact as an Aggregate root, and add the logic for mandatory fields to other entities (Customer and Supplier)
     /// </summary>
-    public class Contact : IAggregateRoot
+    public abstract class Contact : IAggregateRoot
     {
         public int Id { get; set; }
 
@@ -15,8 +15,8 @@ namespace ContactManager.Domain.Entities
         [StringLength(50)]
         public string Name { get; set; }
 
-        public string Email { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string Phone { get; set; }
+        //public string Email { get; set; }
+        //public DateTime BirthDate { get; set; }
+        //public string Phone { get; set; }
     }
 }

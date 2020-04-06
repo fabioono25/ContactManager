@@ -1,4 +1,5 @@
 using ContactManager.Data.Repositories;
+using ContactManager.Domain.Entities;
 using ContactManager.Domain.RepositoryInterfaces;
 using ContactManager.Services;
 using Microsoft.AspNetCore.Builder;
@@ -21,18 +22,17 @@ namespace ContactManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IContactRepository, MockContactRepository>();
-            services.AddScoped<ICustomerRepository, MockCustomerRepository>();
-            services.AddScoped<ISupplierRepository, MockSupplierRepository>();
+            services.AddScoped<IContactRepository<Contact>, MockContactRepository<Contact>>();
 
+            //it's possible to divide the repository in two specific ones
+            //services.AddScoped<IContactRepository<Customer>, MockContactRepository<Customer>>();
+            //services.AddScoped<IContactRepository<Supplier>, MockContactRepository<Supplier>>();
+             
             services.AddMvc();
 
             services.Add(new ServiceDescriptor(typeof(IContactService), typeof(ContactService), ServiceLifetime.Transient)); // Transient
 
             services.AddScoped<IContactService, ContactService>();
-
-            //services.AddScoped<IContactService, ContactService>();
-            //services.AddScoped(typeof(IContactService), typeof(ContactService));
 
             services.AddControllersWithViews();
         }

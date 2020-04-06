@@ -1,4 +1,5 @@
-﻿using ContactManager.Domain.RepositoryInterfaces;
+﻿using ContactManager.Domain.Entities;
+using ContactManager.Domain.RepositoryInterfaces;
 using ContactManager.Dtos;
 using ContactManager.Services.Extensions;
 using System;
@@ -8,15 +9,11 @@ namespace ContactManager.Services
 {
     public class ContactService : IContactService
     {
-        private IContactRepository _contactRepository;
-        private ICustomerRepository _customerRepository;
-        private ISupplierRepository _supplierRepository;
+        private IContactRepository<Contact> _contactRepository;
 
-        public ContactService(IContactRepository contactRepository, ICustomerRepository customerRepository, ISupplierRepository supplierRepository)
+        public ContactService(IContactRepository<Contact> contactRepository)
         {
             _contactRepository = contactRepository;
-            _customerRepository = customerRepository;
-            _supplierRepository = supplierRepository;
         }
 
         /// <summary>
@@ -24,21 +21,25 @@ namespace ContactManager.Services
         /// </summary>
         /// <param name="contactDto"></param>
         /// <returns></returns> 
-        public bool AddContact(ContactDto contactDto)
+        public void AddContact(ContactDto contactDto) //divide Dtos
         {
+            Contact contact;
+
             if (contactDto.IsCustomer)
             {
-                var customer = contactDto.ToCustomerEntity();
-                return _customerRepository.InsertCustomer(customer) != 0;
+                contact = contactDto.ToCustomerEntity();
+            }else
+            {
+                contact = contactDto.ToSupplierEntity();
             }
-
-            var supplier = contactDto.ToSupplierEntity();
-            return _supplierRepository.InsertSupplier(supplier) != -1;
+            
+            //_customerRepository.InsertContact(customer);
+            _contactRepository.InsertContact(contact);
         }
 
-        public bool DeleteContact(int id)
+        public void DeleteContact(int id)
         {
-            return _contactRepository.DeleteContact(id) != 0;
+            _contactRepository.DeleteContact(id);
         }
 
         public IEnumerable<ContactDto> GetContacts()
@@ -48,7 +49,7 @@ namespace ContactManager.Services
             return contacts.ToDto();
         }
 
-        public bool UpdateContact(ContactDto contactDto)
+        public void UpdateContact(ContactDto contactDto)
         {
             throw new NotImplementedException();
         }

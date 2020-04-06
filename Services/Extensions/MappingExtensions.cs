@@ -31,16 +31,31 @@ namespace ContactManager.Services.Extensions
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public static ContactDto ToDto(this Contact entity)
         {
+            if (entity is Customer)
+            {
+                return new ContactDto
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    BirthDate = (entity as Customer).Birthday,
+                    Email = (entity as Customer).Email,
+                    IsCustomer = true
+                };
+            }
+
             return new ContactDto
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Phone = entity.Phone,
-                BirthDate = entity.BirthDate,
-                Email = entity.Email,
-                IsCustomer = entity.Phone == string.Empty
+                Phone = (entity as Supplier).PhoneNumber,
+                IsCustomer = false
             };
         }
 

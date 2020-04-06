@@ -5,9 +5,9 @@ namespace ContactManager.Services
 {
     public interface IContactService
     {
-        bool AddContact(ContactDto contactDto);
+        void AddContact(ContactDto contactDto);
         IEnumerable<ContactDto> GetContacts();
-        bool UpdateContact(ContactDto contactDto);
-        bool DeleteContact(int id);
+        void UpdateContact(ContactDto contactDto);
+        void DeleteContact(int id);
     }
 }
