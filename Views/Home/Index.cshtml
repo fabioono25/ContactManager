@@ -1,10 +1,37 @@
-﻿@model Contact
+﻿@model ContactViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
+<h2>Contacts List</h2>
+<h4>Here are the list of the contacts</h4>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Birth</th>
+            <th>Phone</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model.Contacts)
+        {
+        <tr>
+            <td class="text-center">@contact.Name</td>
+            <td class="text-left">@contact.Email</td>
+            <td class="text-left">@contact.BirthDate</td>
+            <td class="text-left">@contact.Phone</td>
+            <td class="text-left">@(contact.IsCustomer ? "Customer" : "Supplier")</td>
+        </tr>
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @*<a class="btn btn-primary" asp-controller="Order" asp-action="Checkout">Add new Contact</a>*@
 </div>

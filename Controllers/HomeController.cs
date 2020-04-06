@@ -16,7 +16,7 @@ namespace ContactManager.Controllers
             _contactService = contactService;
         }
         /// <summary>
-        /// I`m returning the list of contacts, but I didn`t have time to iterate in UI
+        /// It's good to create different methods, to add a customer or a supplier and handle this logic to add a customer or supplier directly in UI
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
@@ -33,9 +33,12 @@ namespace ContactManager.Controllers
 
             _contactService.AddContact(contact);
 
-            contacts = _contactService.GetContacts();
+            var contactViewModel = new ContactViewModel
+            {
+                Contacts = _contactService.GetContacts()
+            };
 
-            return View(contacts);
+            return View(contactViewModel);
         }
 
         public IActionResult Privacy()

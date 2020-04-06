@@ -42,6 +42,12 @@ namespace ContactManager.Services
             _contactRepository.DeleteContact(id);
         }
 
+        /// <summary>
+        /// We can divide into two different methods, getCustomers() and getSuppliers()
+        /// Using Entity Framework, we can potentially use the union clause to joint the two results into one aggregation.
+        /// Using this strategy, we could have two different repositories (for customer and supplier)
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ContactDto> GetContacts()
         {
             var contacts = _contactRepository.Contacts;
